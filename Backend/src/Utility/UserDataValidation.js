@@ -1,7 +1,7 @@
 import zod from 'zod'
 
 //sanitize the user input
-export default function userDataValidation(userData){
+export const userDataValidation=(userData)=>{
     //name, age, email, contact number
     const studentData=zod.object({
         firstname:zod.string().min(2,{message:'Firstname must be more than 2 characters!'}),
@@ -29,6 +29,32 @@ export default function userDataValidation(userData){
         return{
             success:false,
             message:'Something went wrong! Please try again'
+        }
+    }
+}
+
+export const userSignInDataValidation=(userSignInData)=>{
+    const signInSchema=zod.object({
+        email:zod.string().email(),
+        password:zod.string().min(8,{message:"Password should be minimum 8 charcters"})
+    })
+    try {
+        const{success,error}=signInSchema.safeParse(userSignInData)
+        if(!success){
+            return{
+                success:false,
+                message:error.message
+            }
+        }
+        return{
+            success:true,
+            message:null
+        }
+    } catch (error) {
+        console.log(error);
+        return{
+            success:false,
+            message:'Something went wrong please try again!'
         }
     }
 }
