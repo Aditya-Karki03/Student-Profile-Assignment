@@ -99,9 +99,9 @@ export const coursesInfoValidation = (coursesInfo) => {
 
 export const educationalInfoValidation = (eduInfo) => {
   const eduInfoSchema = zod.object({
-    Institution: zod.string().min(1),
-    Degree: zod.string().min(1),
-    yearsOfAttendance: zod.string().min(1),
+    name: zod.string().min(1),
+    degree: zod.string().min(1),
+    attendance: zod.string().min(1),
   });
 
   const educationalInfosScehma = zod.object({
