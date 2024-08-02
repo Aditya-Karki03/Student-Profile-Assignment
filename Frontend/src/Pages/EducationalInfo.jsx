@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Spinner from "../Components/Spinner";
 
 export default function EducationalInfo() {
+  const [loading, setLoading] = useState(false);
   const [institutes, setInstitutes] = useState([
     { name: "", degree: "", attendance: "" },
   ]);
@@ -26,11 +30,44 @@ export default function EducationalInfo() {
       setInstitutes(institutes.slice(0, -1));
     }
   };
-
-  const handleSubmission = async () => {
-    const response = await axios.post("");
-
-    naviage("/enrolledCourses");
+  if (institutes.length > 0) {
+    console.log(institutes);
+  }
+  const handleSubmission = async (e) => {
+    e.preventDefault();
+    setLoading((prev) => !prev);
+    const headers = {
+      authorization: localStorage.getItem("token"),
+    };
+    try {
+      const response = await axios.post(
+        "https://student-profile-assignment.onrender.com/api/v1/user/educationalInfo",
+        {
+          data: institutes,
+        },
+        {
+          headers,
+        }
+      );
+      setLoading((prev) => !prev);
+      console.log(response);
+      if (response.status == "400") {
+        toast.error("Something went wrong! Please Try again!", {
+          position: "bottom-right",
+        });
+      } else {
+        toast.success("Data added Successfully!!", {
+          position: "bottom-right",
+        });
+      }
+    } catch (error) {
+      setLoading((prev) => !prev);
+      console.log(error);
+      toast.error("Something went wrong! Please Try again!", {
+        position: "bottom-right",
+      });
+    }
+    // naviage("/enrolledCourses");
   };
 
   return (
@@ -115,10 +152,11 @@ export default function EducationalInfo() {
           <button
             type="submit"
             className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            onClick={handleSubmission}
+            onClick={(e) => handleSubmission(e)}
           >
-            Submit
+            {loading ? <Spinner /> : "Submit"}
           </button>
+          <ToastContainer />
         </form>
       </div>
     </div>

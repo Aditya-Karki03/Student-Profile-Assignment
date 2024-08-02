@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import Spinner from "../Components/Spinner";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Signing() {
   const navigate = useNavigate();
@@ -34,18 +36,21 @@ export default function Signing() {
     try {
       if (signIn) {
         const response = await axios.post(
-          "http://localhost:3000/api/v1/user/signin",
+          "https://student-profile-assignment.onrender.com/api/v1/user/signin",
           {
             email: formData.email,
             password: formData.password,
           }
         );
         const { token } = response.data;
+        toast.success("Successfully Signed Up!!", {
+          position: "bottom-right",
+        });
         localStorage.setItem("token", token);
         navigate("/profileDetails");
       } else {
         const response = await axios.post(
-          "http://localhost:3000/api/v1/user/signup",
+          "https://student-profile-assignment.onrender.com/api/v1/user/signup",
           {
             email: formData.email,
             password: formData.password,
@@ -56,12 +61,19 @@ export default function Signing() {
           }
         );
         const { token } = response.data;
+        toast.success("Successfully Signed In!!", {
+          position: "bottom-right",
+        });
         localStorage.setItem("token", token);
         setLoading((prev) => !prev);
         navigate("/educationalInfo");
       }
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Something went wrong! Please Try again!", {
+        position: "bottom-right",
+      });
+
+      console.error(error);
       setLoading((prev) => !prev);
     }
   }
@@ -210,6 +222,7 @@ export default function Signing() {
               >
                 {loading ? <Spinner /> : signIn ? "Login" : "Create an account"}
               </button>
+              <ToastContainer />
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 {signIn
                   ? "Do not have an account?"

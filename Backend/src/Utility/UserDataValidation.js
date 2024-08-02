@@ -107,11 +107,12 @@ export const educationalInfoValidation = (eduInfo) => {
   const educationalInfosScehma = zod.object({
     data: zod.array(eduInfoSchema),
   });
+
   try {
     const { success, error } = educationalInfosScehma.safeParse(eduInfo);
     if (!success) {
       return {
-        success: false,
+        success: true,
         message: "Wrong Format User Input! Please try again!",
       };
     }
@@ -123,7 +124,7 @@ export const educationalInfoValidation = (eduInfo) => {
     console.log(error);
     return {
       success: false,
-      message: "Something went wrong please try again!!",
+      message: "Something went wrong! Please try again!",
     };
   }
 };

@@ -10,7 +10,10 @@ export default function ProfileDetails() {
       authorization: localStorage.getItem("token"),
     };
     axios
-      .get("http://localhost:3000/api/v1/user/profile", { headers })
+      .get(
+        "https://student-profile-assignment.onrender.com/api/v1/user/profile",
+        { headers }
+      )
       .then((res) => setDataItems(res.data))
       .catch((err) => console.log(err))
       .finally(() => setLoading((prev) => !prev));
