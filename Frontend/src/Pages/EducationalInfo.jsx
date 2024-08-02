@@ -67,7 +67,7 @@ export default function EducationalInfo() {
         position: "bottom-right",
       });
     }
-    // naviage("/enrolledCourses");
+    naviage("/enrolledCourses");
   };
 
   return (

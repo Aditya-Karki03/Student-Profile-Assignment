@@ -14,6 +14,7 @@ courseRouter.post("/", async (req, res) => {
 
     const { success, message } = coursesInfoValidation(coursesInfo);
     if (!success) {
+      res.status(400);
       return res.json({
         msg: message,
       });
@@ -30,6 +31,7 @@ courseRouter.post("/", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(400);
     return res.json({
       msg: "Something went wrong!! Please try again!",
     });
