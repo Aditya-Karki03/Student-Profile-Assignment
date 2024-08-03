@@ -40,13 +40,11 @@ export default function PersonalDataForm({
 
   async function handleUpdate(e) {
     e.preventDefault();
-    console.log(personalData);
     try {
       setLoading((prev) => !prev);
       const headers = {
         authorization: localStorage.getItem("token"),
       };
-      console.log(localStorage.getItem("token"));
       const response = await axios.put(
         `https://student-profile-assignment.onrender.com/api/v1/user/profile/?id=${id}&section=Personal`,
         {

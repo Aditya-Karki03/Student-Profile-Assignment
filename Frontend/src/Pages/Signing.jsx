@@ -42,7 +42,6 @@ export default function Signing() {
             password: formData.password,
           }
         );
-        console.log(response);
         const { token } = response.data;
         if (response.status == 400 || token == undefined) {
           toast.error("User not found! Please try signing Up!", {

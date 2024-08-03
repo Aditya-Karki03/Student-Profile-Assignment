@@ -10,7 +10,6 @@ eduRouter.post("/", async (req, res) => {
     const eduInfo = req.body;
     const { data } = eduInfo;
     const { authorization } = req.headers;
-    console.log(eduInfo);
 
     const { success, message } = educationalInfoValidation(eduInfo);
     if (!success) {

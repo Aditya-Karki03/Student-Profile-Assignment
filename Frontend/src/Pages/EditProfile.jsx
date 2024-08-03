@@ -15,7 +15,7 @@ export default function EditProfile() {
     );
   }
   const { personalData, educationalData, courseData } = dataItems;
-  console.log(section);
+
   //<EducationAndCourseForm name={} degree={} attendance={}/>
   return (
     <div className="bg-black min-h-screen">

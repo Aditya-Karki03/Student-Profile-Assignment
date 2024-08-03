@@ -13,7 +13,6 @@ profileRouter.get("/", async (req, res) => {
   try {
     const { authorization } = req.headers;
     const userId = decodeToken(authorization);
-    console.log(userId);
     connectDB();
     const personalData = await StudentData.findById(userId);
     const educationalData = await EducationalData.findOne({
@@ -40,10 +39,7 @@ profileRouter.put("/", async (req, res) => {
     const updatedData = req.body;
     const { id, section } = req.query;
     const { authorization } = req.headers;
-    console.log(authorization);
     const userId = decodeToken(authorization);
-    console.log("id is " + id);
-    console.log(updatedData);
 
     connectDB();
     if (section == "Personal") {
@@ -55,7 +51,6 @@ profileRouter.put("/", async (req, res) => {
         phoneNo: updatedData.data.phoneNo,
       });
       if (response) {
-        console.log(response);
         return res.json({
           msg: "Updation Successfull",
         });
@@ -80,7 +75,6 @@ profileRouter.put("/", async (req, res) => {
           arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(id) }],
         }
       );
-      console.log(response);
       if (response.modifiedCount == 0) {
         res.status(400);
         return res.json({

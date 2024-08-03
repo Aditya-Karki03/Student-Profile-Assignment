@@ -53,7 +53,6 @@ export default function EnrolledCourses() {
           headers,
         }
       );
-      console.log(response);
       setLoading((prev) => !prev);
       if (response.status == 400) {
         toast.error("Something Went Wrong! Please Try Again", {

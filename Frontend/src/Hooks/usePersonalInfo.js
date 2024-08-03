@@ -23,7 +23,6 @@ export default function UsePersonalInfo(section) {
       });
   }, []);
 
-  //   console.log(dataItems);
   return {
     dataItems,
     loading,

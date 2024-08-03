@@ -10,7 +10,6 @@ courseRouter.post("/", async (req, res) => {
     const coursesInfo = req.body;
     const { data } = coursesInfo;
     const { authorization } = req.headers;
-    console.log(coursesInfo);
 
     const { success, message } = coursesInfoValidation(coursesInfo);
     if (!success) {

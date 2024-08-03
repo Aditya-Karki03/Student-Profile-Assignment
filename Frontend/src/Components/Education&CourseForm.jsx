@@ -37,7 +37,6 @@ export default function EducationAndCourseForm({
 
   async function handleUpdate(e) {
     e.preventDefault();
-    console.log(learningData);
     try {
       setLoading((prev) => !prev);
       const headers = {

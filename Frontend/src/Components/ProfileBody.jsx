@@ -12,7 +12,6 @@ export default function ProfileBody({
 
   function handleEdit(e, title) {
     e.preventDefault();
-    console.log(title);
     navigate(`/editProfile/${title}`);
   }
 
