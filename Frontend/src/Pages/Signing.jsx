@@ -36,18 +36,26 @@ export default function Signing() {
     try {
       if (signIn) {
         const response = await axios.post(
-          "https://student-profile-assignment.onrender.com/api/v1/user/signin",
+          "http://localhost:3000/api/v1/user/signin",
           {
             email: formData.email,
             password: formData.password,
           }
         );
+        console.log(response);
         const { token } = response.data;
-        toast.success("Successfully Signed In!!", {
-          position: "bottom-right",
-        });
-        localStorage.setItem("token", token);
-        navigate("/profileDetails");
+        if (response.status == 400 || token == undefined) {
+          toast.error("User not found! Please try signing Up!", {
+            position: "bottom-right",
+          });
+        } else {
+          const { token } = response.data;
+          toast.success("Successfully Signed In!!", {
+            position: "bottom-right",
+          });
+          localStorage.setItem("token", token);
+          navigate("/profileDetails");
+        }
       } else {
         const response = await axios.post(
           "https://student-profile-assignment.onrender.com/api/v1/user/signup",
