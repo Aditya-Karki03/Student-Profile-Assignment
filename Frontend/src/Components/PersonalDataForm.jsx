@@ -14,6 +14,7 @@ export default function PersonalDataForm({
   id,
 }) {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [personalData, setPersonalData] = useState({
     firstname: fname,
     lastname: lname,
@@ -41,12 +42,13 @@ export default function PersonalDataForm({
     e.preventDefault();
     console.log(personalData);
     try {
+      setLoading((prev) => !prev);
       const headers = {
         authorization: localStorage.getItem("token"),
       };
       console.log(localStorage.getItem("token"));
       const response = await axios.put(
-        `http://localhost:3000/api/v1/user/profile/?id=${id}&section=Personal`,
+        `https://student-profile-assignment.onrender.com/api/v1/user/profile/?id=${id}&section=Personal`,
         {
           data: personalData,
         },
@@ -55,13 +57,16 @@ export default function PersonalDataForm({
         }
       );
       if (response.status == "400") {
+        setLoading((prev) => !prev);
         toast.error("Something Went Wrong!! Please try again!", {
           position: "bottom-right",
         });
       } else {
+        setLoading((prev) => !prev);
         toast.success("Data Updated Successfully");
       }
     } catch (error) {
+      setLoading((prev) => !prev);
       console.log(error);
       toast.error("Something Went Wrong!! Please try again!", {
         position: "bottom-right",
@@ -183,7 +188,7 @@ export default function PersonalDataForm({
             onClick={handleUpdate}
             className=" text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
-            Update
+            {loading ? <Spinner /> : "Update"}
           </button>
         </div>
         <ToastContainer />

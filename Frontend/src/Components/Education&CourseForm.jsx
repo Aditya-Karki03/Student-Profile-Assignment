@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import Spinner from "./Spinner";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
@@ -15,6 +16,7 @@ export default function EducationAndCourseForm({
   id,
 }) {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [learningData, setLearningData] = useState({
     nameOrCourse: nameOrCourse,
     degreeOrInstructor: degreeOrInstructor,
@@ -37,11 +39,12 @@ export default function EducationAndCourseForm({
     e.preventDefault();
     console.log(learningData);
     try {
+      setLoading((prev) => !prev);
       const headers = {
         authorization: localStorage.getItem("token"),
       };
       const response = await axios.put(
-        `http://localhost:3000/api/v1/user/profile/?id=${id}&section=${title}`,
+        `https://student-profile-assignment.onrender.com/api/v1/user/profile/?id=${id}&section=${title}`,
         {
           data: learningData,
         },
@@ -50,13 +53,16 @@ export default function EducationAndCourseForm({
         }
       );
       if (response.status == "400") {
+        setLoading((prev) => !prev);
         toast.error("Something Went Wrong!! Please try again!", {
           position: "bottom-right",
         });
       } else {
+        setLoading((prev) => !prev);
         toast.success("Data Updated Successfully");
       }
     } catch (error) {
+      setLoading((prev) => !prev);
       console.log(error);
       toast.error("Something Went Wrong!! Please try again!", {
         position: "bottom-right",
@@ -131,7 +137,7 @@ export default function EducationAndCourseForm({
           type="submit"
           className=" text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
         >
-          Update
+          {loading ? <Spinner /> : "Update"}
         </button>
       </div>
 

@@ -2,12 +2,17 @@ import { useParams } from "react-router-dom";
 import UsePersonalInfo from "../Hooks/usePersonalInfo";
 import PersonalDataForm from "../Components/PersonalDataForm";
 import EducationAndCourseForm from "../Components/Education&CourseForm";
+import Spinner from "../Components/Spinner";
 
 export default function EditProfile() {
   const { section } = useParams();
   const { loading, dataItems } = UsePersonalInfo(section);
   if (loading && dataItems == null) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-screen h-screen flex justify-center items-center bg-black">
+        <Spinner />
+      </div>
+    );
   }
   const { personalData, educationalData, courseData } = dataItems;
   console.log(section);

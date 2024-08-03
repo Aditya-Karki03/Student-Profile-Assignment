@@ -1,28 +1,22 @@
 import { useState, useEffect } from "react";
 import ProfileBody from "../Components/ProfileBody";
+import UsePersonalInfo from "../Hooks/usePersonalInfo";
+import Spinner from "../Components/Spinner";
 import axios from "axios";
 
 export default function ProfileDetails() {
-  const [dataItems, setDataItems] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const headers = {
-      authorization: localStorage.getItem("token"),
-    };
-    axios
-      .get(
-        "https://student-profile-assignment.onrender.com/api/v1/user/profile",
-        { headers }
-      )
-      .then((res) => setDataItems(res.data))
-      .catch((err) => console.log(err))
-      .finally(() => setLoading((prev) => !prev));
-  }, []);
-  if (!loading) {
-    console.log(dataItems);
+  const { loading, dataItems } = UsePersonalInfo();
+
+  if (loading && dataItems == null) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center bg-black">
+        <Spinner />
+      </div>
+    );
   }
+
   return (
-    <div className="m-3 ">
+    <div className="p-3 min-h-screen bg-black">
       <ProfileBody
         title="Personal"
         fname={dataItems?.personalData?.firstname}

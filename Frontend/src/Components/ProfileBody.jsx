@@ -42,18 +42,16 @@ export default function ProfileBody({
           return (
             <div className="mb-3" key={i}>
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                {d.Institution
-                  ? `Institution:${d.Institution}`
-                  : `Course:${d.courseName}`}
+                {d.name ? `Institution:${d.name}` : `Course:${d.courseName}`}
               </p>
               <p className=" font-normal text-gray-700 dark:text-gray-400">
-                {d.Degree
-                  ? `Degree: ${d.Degree}`
+                {d.degree
+                  ? `Degree: ${d.degree}`
                   : `Instructor:${d.instructor}`}
               </p>
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                {d.yearsOfAttendance
-                  ? `Years Of Attendance: ${d.yearsOfAttendance}`
+                {d.attendance
+                  ? `Years Of Attendance: ${d.attendance}`
                   : `Duration:${d.duration}`}
               </p>
             </div>

@@ -74,7 +74,7 @@ export default function EnrolledCourses() {
   };
 
   return (
-    <div className="h-screen w-screen dark:bg-gray-900">
+    <div className="min-h-screen w-screen dark:bg-gray-900">
       <h1 className="text-white font-bold text-xl flex justify-center pt-4">
         Enter your Enrolled Courses
       </h1>

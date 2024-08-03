@@ -30,9 +30,7 @@ export default function EducationalInfo() {
       setInstitutes(institutes.slice(0, -1));
     }
   };
-  if (institutes.length > 0) {
-    console.log(institutes);
-  }
+
   const handleSubmission = async (e) => {
     e.preventDefault();
     setLoading((prev) => !prev);
@@ -50,7 +48,6 @@ export default function EducationalInfo() {
         }
       );
       setLoading((prev) => !prev);
-      console.log(response);
       if (response.status == "400") {
         toast.error("Something went wrong! Please Try again!", {
           position: "bottom-right",
@@ -71,7 +68,7 @@ export default function EducationalInfo() {
   };
 
   return (
-    <div className="h-screen w-screen dark:bg-gray-900">
+    <div className="min-h-screen w-screen dark:bg-gray-900">
       <h1 className="text-white font-bold text-xl flex justify-center pt-4">
         Enter your Educational Information
       </h1>
