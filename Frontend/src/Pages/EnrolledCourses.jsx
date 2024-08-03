@@ -1,6 +1,13 @@
 import { useState } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Spinner from "../Components/Spinner";
+import { useNavigate } from "react-router-dom";
 
 export default function EnrolledCourses() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [courses, SetCourses] = useState([
     {
       courseName: "",
@@ -30,9 +37,40 @@ export default function EnrolledCourses() {
     }
   };
 
-  const handleSubmission = (e) => {
+  const handleSubmission = async (e) => {
     e.preventDefault();
-    console.log(courses);
+    setLoading((prev) => !prev);
+    const headers = {
+      authorization: localStorage.getItem("token"),
+    };
+    try {
+      const response = await axios.post(
+        "https://student-profile-assignment.onrender.com/api/v1/user/coursesInfo",
+        {
+          data: courses,
+        },
+        {
+          headers,
+        }
+      );
+      console.log(response);
+      setLoading((prev) => !prev);
+      if (response.status == 400) {
+        toast.error("Something Went Wrong! Please Try Again", {
+          position: "bottom-right",
+        });
+      } else {
+        toast.success("Course Added Successfully!", {
+          position: "bottom-right",
+        });
+      }
+      navigate("/profileDetails");
+    } catch (error) {
+      setLoading((prev) => !prev);
+      toast.error("Something Went Wrong! Please Try Again", {
+        position: "bottom-right",
+      });
+    }
   };
 
   return (
@@ -119,8 +157,9 @@ export default function EnrolledCourses() {
             className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             onClick={handleSubmission}
           >
-            Submit
+            {loading ? <Spinner /> : "Submit"}
           </button>
+          <ToastContainer />
         </form>
       </div>
     </div>

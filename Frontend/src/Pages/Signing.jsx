@@ -43,7 +43,7 @@ export default function Signing() {
           }
         );
         const { token } = response.data;
-        toast.success("Successfully Signed Up!!", {
+        toast.success("Successfully Signed In!!", {
           position: "bottom-right",
         });
         localStorage.setItem("token", token);

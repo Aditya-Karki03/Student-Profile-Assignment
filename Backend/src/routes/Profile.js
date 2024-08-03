@@ -1,5 +1,6 @@
 import express from "express";
 import decodeToken from "../Utility/DecodeToken.js";
+import mongoose from "mongoose";
 import connectDB from "../Utility/db.js";
 import {
   CoursesData,
@@ -37,7 +38,91 @@ profileRouter.get("/", async (req, res) => {
 profileRouter.put("/", async (req, res) => {
   try {
     const updatedData = req.body;
-  } catch (error) {}
+    const { id, section } = req.query;
+    const { authorization } = req.headers;
+    console.log(authorization);
+    const userId = decodeToken(authorization);
+    console.log("id is " + id);
+    console.log(updatedData);
+
+    connectDB();
+    if (section == "Personal") {
+      const response = await StudentData.findByIdAndUpdate(id, {
+        firstname: updatedData.data.firstname,
+        lastname: updatedData.data.lastname,
+        age: updatedData.data.age,
+        email: updatedData.data.email,
+        phoneNo: updatedData.data.phoneNo,
+      });
+      if (response) {
+        console.log(response);
+        return res.json({
+          msg: "Updation Successfull",
+        });
+      }
+      res.status(400);
+      return res.json({
+        msg: "Updation not Successfull!",
+      });
+    } else if (section == "Education") {
+      const response = await EducationalData.updateOne(
+        {
+          userId: userId,
+        },
+        {
+          $set: {
+            "data.$[elem].name": updatedData.data.nameOrCourse,
+            "data.$[elem].degree": updatedData.data.degreeOrInstructor,
+            "data.$[elem].attendance": updatedData.data.attendanceOrDuration,
+          },
+        },
+        {
+          arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(id) }],
+        }
+      );
+      console.log(response);
+      if (response.modifiedCount == 0) {
+        res.status(400);
+        return res.json({
+          msg: "Aw snap! Please try again!",
+        });
+      }
+      return res.json({
+        msg: "Updated Successfully",
+      });
+    } else if (section == "Courses") {
+      const response = await CoursesData.updateOne(
+        {
+          userId: userId,
+        },
+        {
+          $set: {
+            "data.$[elem].courseName": updatedData.data.nameOrCourse,
+            "data.$[elem].instructor": updatedData.data.degreeOrInstructor,
+            "data.$[elem].duration": updatedData.data.attendanceOrDuration,
+          },
+        },
+        {
+          arrayFilters: [{ "elem._id": new mongoose.Types.ObjectId(id) }],
+        }
+      );
+      if (response.modifiedCount == 0) {
+        res.status(400);
+        return res.json({
+          msg: "Aw snap! Please try again!",
+        });
+      }
+      return res.json({
+        msg: "Updated Successfully",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    return res.json({
+      msg: "Something went wrong! Please try again!",
+    });
+  }
 });
 
 export default profileRouter;
