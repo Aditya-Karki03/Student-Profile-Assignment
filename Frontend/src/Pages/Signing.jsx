@@ -127,7 +127,7 @@ export default function Signing() {
                   htmlFor="password"
                   className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Password
+                  Password (minimum 8 characters)
                 </label>
                 <input
                   type="password"
@@ -201,7 +201,8 @@ export default function Signing() {
                       htmlFor="phoneNo"
                       className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Your contact number
+                      Your contact number (minmum 10 characters and should be
+                      unique)
                     </label>
                     <input
                       type="text"
